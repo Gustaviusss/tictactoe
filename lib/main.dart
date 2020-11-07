@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   int xScore = 0;
   int oScore = 0;
   bool end = false;
+  int filledBoxes = 0;
   List<String> label = [
     '',
     '',
@@ -47,9 +48,11 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       if (oTurn && label[index] == '') {
         label[index] = 'o'.toUpperCase();
+        filledBoxes += 1;
         oTurn = false;
       } else if (!oTurn && label[index] == '') {
         label[index] = 'x'.toUpperCase();
+        filledBoxes += 1;
         oTurn = true;
       }
 
@@ -81,7 +84,16 @@ class _HomePageState extends State<HomePage> {
     }
     if (label[6] == label[4] && label[6] == label[2] && label[6] != '') {
       _showWinner();
+    } else if (filledBoxes == 9) {
+      showDraw();
     }
+  }
+
+  void showDraw() {
+    message = 'Draw';
+    setState(() {
+      end = true;
+    });
   }
 
   void _showWinner() {
@@ -96,6 +108,7 @@ class _HomePageState extends State<HomePage> {
     message = '';
     oTurn = true;
     end = false;
+    filledBoxes = 0;
     for (int i = 0; i < label.length; i++) {
       setState(() {
         label[i] = '';
@@ -109,6 +122,7 @@ class _HomePageState extends State<HomePage> {
     message = '';
     end = false;
     oTurn = true;
+    filledBoxes = 0;
     for (int i = 0; i < label.length; i++) {
       setState(() {
         label[i] = '';
